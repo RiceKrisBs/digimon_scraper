@@ -5,10 +5,11 @@ import csv
 import os
 import requests
 
-DEVELOPER_MODE = True
+
+DEVELOPER_MODE = False
 BASE_URL = 'http://digidb.io/digimon-list/'
 SHORT_SLEEP = 1
-
+LONGER_SLEEP = 2
 
 sep = '\\' if system() == "Windows" else '/'
 if not os.path.exists('.' + sep + 'regular_images'):
@@ -19,7 +20,6 @@ if not os.path.exists('.' + sep + 'pixel_images'):
 if DEVELOPER_MODE:
     if not os.path.isfile('.' + sep + 'homepage_response.txt'):
         homepage_response_request = requests.get(BASE_URL)
-        sleep(SHORT_SLEEP)
         with open('homepage_response.txt', 'w') as file:
             file.write(homepage_response_request.text)
     with open('homepage_response.txt', 'r') as file:
@@ -70,18 +70,15 @@ def sanitize_digimon_name(name):
     return safe_name.replace(' ', '_')
 
 
-for digimon in all_digimon[0:1]:
-    print(f"Gathering images for {digimon['Name']}...")
-    safe_name = sanitize_digimon_name(digimon['Name'])
+for digimon in all_digimon:
     digimon_page = requests.get(digimon['URL'])
-    sleep(SHORT_SLEEP)
-
     digimon_page_soup = BeautifulSoup(digimon_page.text, 'html.parser')
     digimon_info_table = digimon_page_soup.select_one('table:is(#infotable)')
 
+    safe_name = sanitize_digimon_name(digimon['Name'])
+
     reg_img_url = digimon_info_table.select_one('tr > td > img:is(.topimg)')['src']
     reg_img_data = requests.get(reg_img_url).content
-    sleep(SHORT_SLEEP)
     reg_img_filename = f"{digimon['Number'].zfill(3)}_{safe_name}_reg.jpg"
     reg_img_path = '.' + sep + 'regular_images' + sep + reg_img_filename
     with open(reg_img_path, 'wb') as img_file:
@@ -89,8 +86,10 @@ for digimon in all_digimon[0:1]:
 
     pxl_img_url = digimon_info_table.select_one('tr > td > img:is(.dot)')['src']
     pxl_img_data = requests.get(pxl_img_url).content
-    sleep(SHORT_SLEEP)
     pxl_img_filename = f"{digimon['Number'].zfill(3)}_{safe_name}_pxl.jpg"
     pxl_img_path = '.' + sep + 'pixel_images' + sep + pxl_img_filename
     with open(pxl_img_path, 'wb') as img_file:
         img_file.write(pxl_img_data)
+
+    print(f"{digimon['Number']}/{len(all_digimon)} Digimon downloaded...")
+    sleep(LONGER_SLEEP)
