@@ -1,1 +1,8 @@
+pixel_images/
+regular_images/
 venv/
+
+digimon_scraped_data.csv
+
+# Used in DEVELOPER_MODE
+homepage_response.txt
