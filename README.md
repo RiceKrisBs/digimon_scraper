@@ -12,7 +12,7 @@ Start the process by executing `digimon_scraper.py`.
 ## Notes
 * The script is intended to function properly on Windows and Unix-like systems, but has currently only been tested on Windows.
 * `DEVELOPER_MODE`: When set to `True`, the script will create a file `homepage_response.txt` containing the homepage `request` response in text form. Useful to debug and work without needed to repeatedly make live requests.
-* After downloading the two images for a Digimon, the script will sleep for 2 seconds. The website's `robots.txt` page does not specify an amount of time to sleep between requests; this is just my attempt to be respectful to the site. This means that a full run of the script should take around 12 minutes to complete.
+* After downloading the two images for a Digimon, the script will sleep for 0.5 seconds. The website's `robots.txt` page does not specify an amount of time to sleep between requests; this is just my attempt to be respectful to the site. The last full run of the script for me took just under 6 minutes to complete. If you'd like to remove the sleeps, take a look at the constant `LONGER_SLEEP`.
 
 ## TO-DO
 * Implement a Digimon class instead of using a dictionary.

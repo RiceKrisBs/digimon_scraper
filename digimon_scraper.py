@@ -8,8 +8,8 @@ import requests
 
 DEVELOPER_MODE = False
 BASE_URL = 'http://digidb.io/digimon-list/'
-SHORT_SLEEP = 1
-LONGER_SLEEP = 2
+SHORT_SLEEP = 0.25
+LONGER_SLEEP = 0.5
 
 sep = '\\' if system() == "Windows" else '/'
 if not os.path.exists('.' + sep + 'regular_images'):
