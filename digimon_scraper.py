@@ -66,8 +66,8 @@ if not os.path.isfile('.' + sep + 'digimon_scraped_data.csv'):
 def sanitize_digimon_name(name):
     strip_chars = ('.', '(', ')')
     for char in strip_chars:
-        safe_name = name.replace(char, '')
-    return safe_name.replace(' ', '_')
+        name = name.replace(char, '')
+    return name.replace(' ', '_')
 
 
 for digimon in all_digimon:
